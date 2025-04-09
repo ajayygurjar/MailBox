@@ -1,0 +1,79 @@
+.auth {
+    margin: 3rem auto;
+    height: 30rem;
+    max-width: 25rem;
+    border-radius: 6px;
+    background-color: #b7adf0;
+    padding: 1rem;
+    margin-top:5rem;
+    box-shadow: 0px 0px 10px 0;
+  }
+  
+  .actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .actions p {
+    color: white;
+  }
+  
+  .actions button {
+    cursor: pointer;
+    font: inherit;
+  
+    color: white;
+    background-color: #9f5ccc;
+    border: 1px solid #9f5ccc;
+    border-radius: 4px;
+    padding: 0.5rem 4rem;
+  }
+  
+  .actions button:hover {
+    background-color: #873abb;
+    border-color: #873abb;
+  }
+  
+  .actions .toggle {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: #9f5ccc;
+    border: none;
+    padding: 0.15rem 1.5rem;
+  }
+   .toggle {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: #9f5ccc;
+    border: none;
+    padding: 0.15rem 1.5rem;
+  }
+  
+  .actions .toggle:hover {
+    background-color: transparent;
+    color: #ae82cc;
+  }
+  
+  @media  screen and (max-width: 525px) {
+    .auth {
+      width: 115% !important;
+      height: 36rem;
+    }
+  }
+  
+  @media  screen and (max-width: 480px) {
+    .auth {
+      width: 115% !important;
+      margin-top: 15rem;
+    }
+  }
+  
+  @media  screen and (max-width: 780px) {
+    .auth {
+      width: 70% !important;
+      margin-top: 10rem;
+    }
+  }
+  
