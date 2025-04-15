@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -11,56 +12,81 @@ const Login = () => {
     const [misMatch, setMisMatch] = useState(false);
     const [error, setError] = useState('');
 
+    const navigate=useNavigate();
+
     const Sign_Up = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`;
+    const Sign_In = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=`;
     const Api_Key = `AIzaSyCZqRRu8zlgRgO9CWYhhCVTfyBiGE1VY4o`;
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        
+        setIsLoading(true);
+        setError('');
 
-        if (password === confirmPassword) {
-            setIsLoading(true);
-            setError('');  
 
-            try {
-                const response = await fetch(`${Sign_Up}${Api_Key}`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        email: email,
-                        password: password,
-                        returnSecureToken: true
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+       try {
+        if (isLogin) {
+            const response = await fetch(`${Sign_In}${Api_Key}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email,
+                    password,
+                    returnSecureToken: true,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log(data);
-                    console.log(`User has successfully signed up.`)
-                    // Handle successful signup/login
-                } else {
-                    const data = await response.json();
-                    let errorMessage = 'Authentication failed!';
-                    if (data && data.error && data.error.message) {
-                        errorMessage = data.error.message;
-                    }
-                    setError(errorMessage); 
-                }
-            } catch (error) {
-                setError('An error occurred, please try again!');
-                console.error(error.message);
-            } finally {
-                setIsLoading(false);
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMessage = data.error?.message || 'Authentication Failed!';
+                throw new Error(errorMessage);
             }
-        } else {
-            setMisMatch(true);
-            setTimeout(() => setMisMatch(false), 3000);
-        }
 
+            localStorage.setItem('token', data.idToken);
+            localStorage.setItem('email', data.email);
+            console.log(data);
+            navigate('/')
+        } else {
+            if (password !== confirmPassword) {
+                setMisMatch(true);
+                setTimeout(() => setMisMatch(false), 3000);
+                return;
+            }
+
+            const response = await fetch(`${Sign_Up}${Api_Key}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email,
+                    password,
+                    returnSecureToken: true,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMessage = data.error?.message || 'Authentication Failed!';
+                throw new Error(errorMessage);
+            }
+
+            console.log(data);
+        }
+    } catch (error) {
+        setError(error.message);
+        console.error(error.message);
+    } finally {
+        setIsLoading(false);
         setPassword('');
         setConfirmPassword('');
-    };
+    }
+};
 
     const onLoginHandler = () => {
         setIsLogin((prevIsLogin) => !prevIsLogin);
