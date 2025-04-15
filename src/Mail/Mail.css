@@ -1,0 +1,42 @@
+.composeMain {
+    background-color: white;
+    width: 70%;
+    margin: 15px auto;
+    height: 40rem;
+    box-shadow: 0px 0px 10px 0;
+    border-radius: 5px;
+  }
+  
+  .emailHead {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  
+  .user {
+    max-width: 100px;
+    height: 50px;
+    margin-left: px;
+    border-radius: 50%;
+  }
+  
+  .user-image {
+    height: 25px;
+    margin-left: 12px;
+  }
+  .userMail {
+    margin-left: 5px;
+  }
+  
+  .navbar-brand1 {
+    background-color: color;
+  }
+  
+  .remove {
+    margin-right: 5rem;
+  }
+  
+  @media screen and (max-width: 1000px) {
+    .composeMain {
+      height: auto;
+    }
+  }
