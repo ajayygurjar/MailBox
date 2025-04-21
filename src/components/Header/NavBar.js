@@ -15,15 +15,13 @@ const NavBar = () => {
                             <Nav.Link  as={Link} to="/" active>Home</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link as={Link} to="/">Product</Nav.Link>
+                            <Nav.Link as={Link} to="/inbox">Inbox</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link as={Link} to="/mail">Mail</Nav.Link>  
                         </Nav.Item>
                         
-                        <Nav.Item>
-                            <Nav.Link as={Link} to="/" disabled>About</Nav.Link>
-                        </Nav.Item>
+                        
                     </Nav>
                     
                 </Navbar.Collapse>

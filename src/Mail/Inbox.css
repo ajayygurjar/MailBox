@@ -1,0 +1,69 @@
+.inbox {
+    background-color: white;
+    max-height: auto;
+  }
+  .container-fluid {
+    padding: 10px;
+    background-color: #5ac3b0;
+  }
+  
+  .navbar-brand1 {
+    font-size: 32px;
+    list-style: none;
+    font-weight: bold;
+    color: #008080;
+  }
+  
+  .btn-primary {
+    background-color: #17a9fd;
+    max-width: 16rem;
+  }
+  
+  .offcanvas {
+    margin-top: 7.5rem;
+  }
+  .btn-primary {
+    width: 100%;
+    border: none;
+  }
+  
+  .btn-outline-info {
+    width: 100%;
+    border: none;
+    font-weight: bold;
+    border-radius: 0;
+  }
+  
+  .b1 {
+    background-color: orange;
+    width: 20%;
+    float: left;
+    max-height: auto;
+  }
+  .b2 {
+    width: 80%;
+    float: right;
+    max-height: auto;
+  }
+  
+  .card {
+    border: none;
+  }
+  
+  .section-right{
+    background-color: white;
+  }
+  .collapse{
+    margin: 0 10rem;
+  }
+  
+  .disabled{
+    font-weight: none;
+    font-size: 16px;
+  }
+  
+  .active{
+    font-weight: bold;
+    color: gray;
+  }
+  
