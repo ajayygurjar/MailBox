@@ -1,69 +1,196 @@
+/* General Styles */
 .inbox {
-    background-color: white;
-    max-height: auto;
-  }
-  .container-fluid {
-    padding: 10px;
-    background-color: #5ac3b0;
-  }
-  
-  .navbar-brand1 {
-    font-size: 32px;
-    list-style: none;
-    font-weight: bold;
-    color: #008080;
-  }
-  
-  .btn-primary {
-    background-color: #17a9fd;
-    max-width: 16rem;
-  }
-  
-  .offcanvas {
-    margin-top: 7.5rem;
-  }
-  .btn-primary {
-    width: 100%;
-    border: none;
-  }
-  
-  .btn-outline-info {
-    width: 100%;
-    border: none;
-    font-weight: bold;
-    border-radius: 0;
-  }
-  
-  .b1 {
-    background-color: orange;
-    width: 20%;
-    float: left;
-    max-height: auto;
-  }
-  .b2 {
-    width: 80%;
-    float: right;
-    max-height: auto;
-  }
-  
-  .card {
-    border: none;
-  }
-  
-  .section-right{
-    background-color: white;
-  }
-  .collapse{
-    margin: 0 10rem;
-  }
-  
-  .disabled{
-    font-weight: none;
-    font-size: 16px;
-  }
-  
-  .active{
-    font-weight: bold;
-    color: gray;
-  }
-  
+  background-color: white;
+  max-height: auto;
+  padding: 20px;
+}
+
+.container-fluid {
+  padding: 10px;
+  background-color: #5ac3b0;
+}
+
+.navbar-brand1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #008080;
+}
+
+.btn-primary {
+  background-color: #17a9fd;
+  width: 100%;
+  border: none;
+}
+
+.btn-outline-info {
+  width: 100%;
+  border: none;
+  font-weight: bold;
+  border-radius: 0;
+}
+
+.card {
+  border: none;
+}
+
+.section-right {
+  background-color: white;
+}
+
+.collapse {
+  margin: 0 10rem;
+}
+
+.disabled {
+  font-weight: none;
+  font-size: 16px;
+}
+
+.active {
+  font-weight: bold;
+  color: gray;
+}
+
+/* Sidebar & Main Content */
+.b1, .b2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.b1 {
+  background-color: orange;
+  width: 20%;
+  max-height: auto;
+}
+
+.b2 {
+  width: 80%;
+  max-height: auto;
+}
+
+/* Unread Message Indicator */
+.unread {
+  background-color: blue; /* Blue background for unread messages */
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 5px;
+  font-size: 0.9rem;
+}
+
+/* Flexbox Layout for Sidebar and Content */
+.d-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.d-flex.flex-lg-row {
+  flex-direction: row;
+}
+
+.p-3 {
+  padding: 1rem;
+}
+
+.border-end {
+  border-right: 1px solid #ddd;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+/* Table Styles for Inbox */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+/* Inbox Message Styling */
+.dotImage {
+  width: 10px;
+  margin-right: 5px;
+}
+
+/* Message Details */
+.inboxMain {
+  margin-top: 20px;
+}
+
+.inboxMain .subject {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.inboxMain .email {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.inboxMain .message {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Button Styling for Mail Actions */
+.btn-danger {
+  background-color: red;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: darkred;
+}
+
+/* Navbar Styling */
+.navbar-brand.mb-4.d-block.fs-4.text-primary {
+  font-size: 32px;
+  font-weight: bold;
+  color: #008080;
+}
+
+button {
+  font-size: 16px;
+}
+
+/* Message Read View */
+.read-box {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.read-box h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.read-box p {
+  font-size: 1.2rem;
+}
+
+.read-box hr {
+  margin: 10px 0;
+}

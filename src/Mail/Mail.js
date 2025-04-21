@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Navbar } from 'react-bootstrap';
-import { convertToRaw } from 'draft-js';
+import { convertToRaw, EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -8,10 +8,13 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './Mail.css';
 
 const Mail = () => {
-  const [editorState, setEditorState] = useState(undefined);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [composeText, setComposeText] = useState('');
+  const [isSent, setIsSent] = useState(false);  
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
@@ -19,8 +22,18 @@ const Mail = () => {
     setComposeText(markdown);
   };
 
+  const resetForm = () => {
+    setEmail('');
+    setSubject('');
+    setComposeText('');
+    setEditorState(EditorState.createEmpty());
+    setErrorMessage('');
+  };
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    setIsLoading(true);
 
     const emailData = {
       email: email,
@@ -49,16 +62,15 @@ const Mail = () => {
       const sendData = await sendResponse.json();
       console.log('Send response:', sendData);
 
-      //clear inut fields
-      setEmail('');
-      setSubject('');
-      setComposeText('');
-      setEditorState(undefined);
-
+      // Success: clear the form and show a success message
+      setIsSent(true);
+      resetForm();
 
     } catch (error) {
       console.error(error.message);
-      alert(error.message);
+      setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
 
     try {
@@ -66,7 +78,7 @@ const Mail = () => {
         'https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/receiveEmail.json',
         {
           method: 'POST',
-          body: JSON.stringify(emailData),
+          body: JSON.stringify({ ...emailData, check: true }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -83,7 +95,7 @@ const Mail = () => {
       console.log('Receive response:', receiveData);
     } catch (error) {
       console.error(error.message);
-      alert(error.message);
+      setErrorMessage(error.message);
     }
   };
 
