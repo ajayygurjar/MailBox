@@ -1,9 +1,38 @@
-.container-fluid {
-   padding: 10px;
-   background-color: #e4dbf3;
- }
- 
- .navbar-brand{
-     font-size: 32px;
-     font-weight: bold;
- }
+/* Sidebar styles */
+.sidebar {
+  background-color: #f7f7f7;
+  height: 100vh;
+  padding-top: 10px;
+  position: fixed;
+  width: 200px;
+}
+
+.navbar-main {
+  margin-bottom: 0;
+}
+
+.navbar-main .navbar-brand {
+  padding-left: 15px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Sidebar Links */
+.nav-link {
+  font-size: 1rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 0;
+}
+
+.nav-link:hover {
+  background-color: #f0f0f0;
+}
+
+/* Content area */
+.content {
+  margin-left: 220px; /* Space for the sidebar */
+  padding: 20px;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
