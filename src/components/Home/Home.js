@@ -1,13 +1,11 @@
 import React from 'react';
  import './Home.css';
+ import Inbox from '../../Mail/Inbox';
  
  const Home = () => {
-    console.log('Home component rendered');
      return (
          <div>
-             <div className='home'>
-                 <h2>Welcome to the Home Page!</h2>
-             </div>
+             <Inbox/>
          </div>
      )
  }

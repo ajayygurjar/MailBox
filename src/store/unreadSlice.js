@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     receiveMails: [],
     messageCount: 0,
+    sentMails: [], 
     mailMessage: {},
     visible: false,
 };
@@ -17,6 +18,9 @@ const unreadSlice = createSlice({
         unreadMessage(state, action) {
             state.messageCount = action.payload;
         },
+        setSentMails(state, action) {
+            state.sentMails = action.payload; 
+          },
         mailDetail(state, action) {
             state.mailMessage = action.payload;
         },

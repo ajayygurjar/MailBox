@@ -127,13 +127,17 @@ const Inbox = () => {
           <Button as={Link} to="/mail" variant="primary" className="w-100 mb-3">
             Compose
           </Button>
-          <Button variant="outline-info" className="w-100 mb-2">
+          <Button variant="outline-info" className="w-100 mb-2" as={Link} to='/inbox' active>
             Inbox{" "}
             {messageCount > 0 && <span className="unread">{messageCount}</span>}
           </Button>
-          <Button variant="outline-info" className="w-100 mb-2">
+          <Button variant="outline-info" className="w-100 mb-2"  disabled>
             Unread
           </Button>
+          <Button as={Link} to="/sent" variant="outline-info" className="w-100 mb-2" >
+              Sent
+           </Button>
+
         </div>
 
         {/* Main Content */}
