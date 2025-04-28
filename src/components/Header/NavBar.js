@@ -5,6 +5,7 @@ import {  useNavigate } from 'react-router-dom';
 const NavBar = () => {
     const token=localStorage.getItem('token')
     const navigate=useNavigate()
+    
     const logoutHandler=()=>{
         localStorage.removeItem('email')
             localStorage.removeItem('token')
