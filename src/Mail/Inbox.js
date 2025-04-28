@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import "./Inbox.css";
@@ -14,11 +14,18 @@ const Inbox = () => {
   const mailMessage = useSelector((state) => state.Unread.mailMessage);
   const receiveEmail = useSelector((state) => state.Unread.receiveMails);
 
+  const userKey = email?.replace(/[@.]/g, '');
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      setError("");
       try {
         const response = await fetch(
-          "https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/receiveEmail.json"
+          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app//users/${userKey}/inbox.json`
         );
         const data = await response.json();
         const loadedEmails = [];
@@ -38,18 +45,30 @@ const Inbox = () => {
 
         const unreadCount = loadedEmails.filter((mail) => mail.check).length;
 
-        dispatch(messageActions.setMails(loadedEmails));
-        dispatch(messageActions.unreadMessage(unreadCount));
+ if (JSON.stringify(loadedEmails) !== JSON.stringify(receiveEmail)) {
+          dispatch(messageActions.setMails(loadedEmails));
+          dispatch(messageActions.unreadMessage(unreadCount));
+        }
       } catch (error) {
         console.error(error);
         alert("Failed to fetch emails");
+      }
+      finally {
+        setLoading(false);
       }
     };
 
     if (email) {
       fetchData();
+      
+      const interval = setInterval(() => {
+        fetchData();
+      }, 2000);
+
+      // Clear the interval when the component is unmounted
+      return () => clearInterval(interval);
     }
-  }, [email, dispatch]);
+  }, [email, dispatch, receiveEmail])
 
   const textDetailsHandler = async (mailDetail) => {
     dispatch(messageActions.visibility());
@@ -62,7 +81,7 @@ const Inbox = () => {
     if (mailDetail.check) {
       try {
         await fetch(
-          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/receiveEmail/${id}.json`,
+          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/${userKey}/inbox/${id}.json`,
           {
             method: "PUT",
             headers: {
@@ -96,7 +115,7 @@ const Inbox = () => {
   const deleteMailHandler = async (id) => {
     try {
       await fetch(
-        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/receiveEmail/${id}.json`,
+        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/inbox/${id}.json`,
         {
           method: "DELETE",
         }

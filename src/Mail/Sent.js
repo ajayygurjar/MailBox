@@ -14,6 +14,8 @@ const Sent = () => {
   const visible = useSelector((state) => state.Unread.visible);
   const mailMessage = useSelector((state) => state.Unread.mailMessage);
 
+  const userKey = email?.replace(/[@.]/g, '');
+
   // States for loading and error
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,7 +27,7 @@ const Sent = () => {
 
       try {
         const response = await fetch(
-          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/sendMail.json`
+          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/sent.json`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch sent emails");
@@ -75,7 +77,7 @@ const Sent = () => {
   const deleteMailHandler = async (id) => {
     try {
       await fetch(
-        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/sendMail/${id}.json`,
+        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/sent/${id}.json`,
         {
           method: "DELETE",
         }

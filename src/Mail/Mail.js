@@ -16,6 +16,16 @@ const Mail = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+
+
+
+  //user specific mail
+
+  
+  const senderEmail = localStorage.getItem('email');
+  const senderKey = senderEmail?.replace(/[@.]/g, ''); 
+  const receiverKey = email.replace(/[@.]/g, '');
+
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
     const markdown = draftToMarkdown(convertToRaw(newEditorState.getCurrentContent()));
@@ -40,13 +50,13 @@ const Mail = () => {
       subject: subject,
       composeText: composeText,
     };
-
+    
     try {
       const sendResponse = await fetch(
-        'https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/sendMail.json',
+        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${senderKey}/sent.json`,
         {
           method: 'POST',
-          body: JSON.stringify(emailData),
+          body: JSON.stringify({...emailData,to:email}),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -72,10 +82,10 @@ const Mail = () => {
     } finally {
       setIsLoading(false);
     }
-
+    
     try {
       const receiveResponse = await fetch(
-        'https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/receiveEmail.json',
+        `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${receiverKey}/inbox.json`,
         {
           method: 'POST',
           body: JSON.stringify({ ...emailData, check: true }),
