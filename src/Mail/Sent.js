@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Spinner, Alert } from "react-bootstrap";
 import { messageActions } from "../store/unreadSlice";
 import { Link } from "react-router-dom";
-import './Inbox.css'; // Reuse Inbox CSS
+import useFetchEmails from "../hooks/useFetchEmails";
+import "./Inbox.css"; // Reuse Inbox CSS
 
 const Sent = () => {
   const dispatch = useDispatch();
@@ -14,53 +15,25 @@ const Sent = () => {
   const visible = useSelector((state) => state.Unread.visible);
   const mailMessage = useSelector((state) => state.Unread.mailMessage);
 
-  const userKey = email?.replace(/[@.]/g, '');
+  const userKey = email?.replace(/[@.]/g, "");
 
-  // States for loading and error
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // Stable callbacks to prevent re-fetch
+  const setMails = useCallback(
+    (loadedEmails) => dispatch(messageActions.setSentMails(loadedEmails)),
+    [dispatch]
+  );
 
-  useEffect(() => {
-    const fetchSentEmails = async () => {
-      setLoading(true);
-      setError("");
+  const setUnread = useCallback(
+    (unreadCount) => dispatch(messageActions.unreadMessage(unreadCount)),
+    [dispatch]
+  );
 
-      try {
-        const response = await fetch(
-          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/sent.json`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch sent emails");
-        }
-
-        const data = await response.json();
-        const loadedEmails = [];
-        for (const key in data) {
-          const mail = data[key];
-          if (mail.composeText && mail.email && mail.subject) {
-            loadedEmails.push({
-              id: key,
-              email: mail.email,
-              subject: mail.subject,
-              composeText: mail.composeText,
-              check: mail.check || false,
-            });
-          }
-        }
-
-        dispatch(messageActions.setSentMails(loadedEmails));
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (email) {
-      fetchSentEmails();
-    }
-  }, [email, dispatch]);
-
+  const { loading, error } = useFetchEmails(
+    email,
+    `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/sent.json`,
+    setMails,
+    setUnread
+  );
   const textDetailsHandler = (mailDetail) => {
     dispatch(messageActions.visibility());
     const { id, email, subject, composeText } = mailDetail;
@@ -102,14 +75,25 @@ const Sent = () => {
           <Button as={Link} to="/mail" variant="primary" className="w-100 mb-3">
             Compose
           </Button>
-          <Button variant="outline-info" className="w-100 mb-2" as={Link} to="/inbox">
+          <Button
+            variant="outline-info"
+            className="w-100 mb-2"
+            as={Link}
+            to="/inbox"
+          >
             Inbox{" "}
             {messageCount > 0 && <span className="unread">{messageCount}</span>}
           </Button>
           <Button variant="outline-info" className="w-100 mb-2" disabled>
             Unread
           </Button>
-          <Button variant="outline-info" className="w-100 mb-2" as={Link} to="/sent" active>
+          <Button
+            variant="outline-info"
+            className="w-100 mb-2"
+            as={Link}
+            to="/sent"
+            active
+          >
             Sent
           </Button>
         </div>
@@ -195,7 +179,9 @@ const Sent = () => {
                     name="person-circle-outline"
                   ></ion-icon>
                 </div>
-                <div className="subject fs-5 fw-bold">{mailMessage.subject}</div>
+                <div className="subject fs-5 fw-bold">
+                  {mailMessage.subject}
+                </div>
                 <div className="email text-muted">{mailMessage.email}</div>
                 <hr />
                 <div className="mt-5 message">

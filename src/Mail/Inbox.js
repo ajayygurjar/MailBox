@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import "./Inbox.css";
 import { useDispatch, useSelector } from "react-redux";
 import { messageActions } from "../store/unreadSlice";
+import useFetchEmails from "../hooks/useFetchEmails";
+
 
 const Inbox = () => {
   const dispatch = useDispatch();
@@ -15,60 +17,12 @@ const Inbox = () => {
   const receiveEmail = useSelector((state) => state.Unread.receiveMails);
 
   const userKey = email?.replace(/[@.]/g, '');
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const response = await fetch(
-          `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app//users/${userKey}/inbox.json`
-        );
-        const data = await response.json();
-        const loadedEmails = [];
-
-        for (const key in data) {
-          const mail = data[key];
-          if (mail.composeText && mail.email && mail.subject) {
-            loadedEmails.push({
-              id: key,
-              email: mail.email,
-              subject: mail.subject,
-              composeText: mail.composeText,
-              check: mail.check || false, // if missing, default to false (read)
-            });
-          }
-        }
-
-        const unreadCount = loadedEmails.filter((mail) => mail.check).length;
-
- if (JSON.stringify(loadedEmails) !== JSON.stringify(receiveEmail)) {
-          dispatch(messageActions.setMails(loadedEmails));
-          dispatch(messageActions.unreadMessage(unreadCount));
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Failed to fetch emails");
-      }
-      finally {
-        setLoading(false);
-      }
-    };
-
-    if (email) {
-      fetchData();
-      
-      const interval = setInterval(() => {
-        fetchData();
-      }, 2000);
-
-      // Clear the interval when the component is unmounted
-      return () => clearInterval(interval);
-    }
-  }, [email, dispatch, receiveEmail])
+  const { loading, error, emails } = useFetchEmails(
+    email,
+    `https://mail-box-938e4-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userKey}/inbox.json`,
+    (loadedEmails) => dispatch(messageActions.setMails(loadedEmails)),
+    (unreadCount) => dispatch(messageActions.unreadMessage(unreadCount))
+  );
 
   const textDetailsHandler = async (mailDetail) => {
     dispatch(messageActions.visibility());
