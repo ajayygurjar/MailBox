@@ -1,6 +1,6 @@
 import React from 'react';
  import './Home.css';
- import Inbox from '../../Mail/Inbox';
+ import Inbox from '../Mail/Inbox';
  
  const Home = () => {
      return (

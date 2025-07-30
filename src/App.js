@@ -3,8 +3,8 @@ import NavBar from "./components/Header/NavBar";
 import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Mail from "./Mail/Mail";
-import Inbox from "./Mail/Inbox";
-import Sent from "./Mail/Sent";
+import Inbox from "./components/Mail/Inbox";
+import Sent from "./components/Mail/Sent";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { Navigate } from "react-router-dom";
 

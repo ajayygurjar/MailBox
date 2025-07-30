@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Spinner, Alert } from "react-bootstrap";
-import { messageActions } from "../store/unreadSlice";
+import { messageActions } from "../../store/unreadSlice";
 import { Link } from "react-router-dom";
-import useFetchEmails from "../hooks/useFetchEmails";
+import useFetchEmails from "../../hooks/useFetchEmails";
 import "./Inbox.css"; // Reuse Inbox CSS
 
 const Sent = () => {
