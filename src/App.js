@@ -2,7 +2,7 @@ import Login from "./components/Authentication/Login"
 import NavBar from "./components/Header/NavBar";
 import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Mail from "./Mail/Mail";
+import Mail from "./components/Mail/Mail";
 import Inbox from "./components/Mail/Inbox";
 import Sent from "./components/Mail/Sent";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";

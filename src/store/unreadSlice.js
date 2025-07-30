@@ -6,6 +6,8 @@ const initialState = {
     sentMails: [], 
     mailMessage: {},
     visible: false,
+    loading: false,
+    error: null,
 };
 
 const unreadSlice = createSlice({
@@ -26,6 +28,13 @@ const unreadSlice = createSlice({
         },
         visibility(state) {
             state.visible = !state.visible;
+        },
+         setLoading(state, action) {
+            state.loading = action.payload;
+        },
+        setError(state, action) {
+            state.error = action.payload;
+            state.loading = false;
         }
     }
 });
